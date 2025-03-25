@@ -21,9 +21,13 @@ void UCarComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 	{
 		Accelerate(DeltaTime);
 	}
-	else
+	else if (isDeccelerating)
 	{
 		Deccelerate(DeltaTime);
+	}
+	else
+	{
+		PassiveDecceleration(DeltaTime);
 	}
 }
 
@@ -39,11 +43,37 @@ void UCarComponent::Accelerate(float DeltaTime)
 
 void UCarComponent::Deccelerate(float DeltaTime)
 {
-	if (currentSpeed <= 0)
+	if (currentSpeed <= -maxSpeed)
+	{
+		currentSpeed = -maxSpeed;
+		return;
+	}
+	currentSpeed = currentSpeed - deccelerationFactor * DeltaTime;
+}
+
+void UCarComponent::PassiveDecceleration(float DeltaTime)
+{
+	if (currentSpeed < 0.01f && currentSpeed > -0.01f)
 	{
 		currentSpeed = 0;
 		return;
 	}
-	currentSpeed = currentSpeed - deccelerationFactor * DeltaTime;
+
+	if (currentSpeed < 0)
+	{
+		currentSpeed += passifDecceleration * DeltaTime;
+		if (currentSpeed > 0)
+		{
+			currentSpeed = 0;
+		}
+	}
+	else
+	{
+		currentSpeed -= passifDecceleration * DeltaTime;
+		if (currentSpeed < 0)
+		{
+			currentSpeed = 0;
+		}
+	}
 }
 

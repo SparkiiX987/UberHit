@@ -32,12 +32,16 @@ public:
 	float deccelerationFactor;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Car")
+	float passifDecceleration;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Car")
 	bool isAccelerating;
 
-	UFUNCTION(BlueprintCallable, Category = "Car")
-	void Accelerate(float DeltaTime);
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Car")
+	bool isDeccelerating;
 
-	UFUNCTION(BlueprintCallable, Category = "Car")
+	void Accelerate(float DeltaTime);
 	void Deccelerate(float DeltaTime);
+	void PassiveDecceleration(float DeltaTime);
 		
 };
